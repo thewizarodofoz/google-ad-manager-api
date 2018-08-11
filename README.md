@@ -12,7 +12,9 @@ npm i --save google-ad-manager-node-api
 ```
 
 ## Usage
-Step #1: obtain an access token in whatever way you like, for example using [Google Auth Library](https://github.com/google/google-auth-library-nodejs)'s JSON Web Tokens mechanism:
+
+### Step #1
+Obtain an access token in whatever way you like, for example using [Google Auth Library](https://github.com/google/google-auth-library-nodejs)'s [JSON Web Tokens](https://github.com/google/google-auth-library-nodejs#json-web-tokens) mechanism:
 ```ts
 const {auth} = require('google-auth-library');
 
@@ -34,18 +36,21 @@ client.scopes = ['https://www.googleapis.com/auth/dfp'];
 await client.authorize();
 ```
 
-Step #2: create a DFP client:
+### Step #2:
+Create a DFP client:
 ```ts
 const dfp = new DFP({networkCode: '...', apiVersion: 'v201805'});
 ```
 
-Step #3: use the client to create a service, and pass the auth token from step #1: 
+### Step #3
+Use the client to create a service, and pass the auth token from step #1: 
 ```ts
 const lineItemService = await dfp.getService('LineItemService');
 lineItemService.setToken(client.credentials.access_token);
 ```
 
-Step #4: invoke service methods:
+### Step #4
+Invoke service methods:
 ```ts
 const res = await lineItemService.getLineItemsByStatement({
     filterStatement: {
@@ -57,7 +62,7 @@ console.log(res.results[0].id);
 ```
 
 ## Notes
-* The [Ad Manager API](https://developers.google.com/ad-manager/docs/rel_notes), returns an `rval` field for each method invocation. 
+* The [Ad Manager API](https://developers.google.com/ad-manager/docs/rel_notes) returns an `rval` field for each method invocation. 
 To make things easier for us, this package will return the content of that field. 
 For example, invocation of [`LineItemService.getLineItemsByStatement`](https://developers.google.com/ad-manager/docs/reference/v201805/LineItemService#getlineitemsbystatement) will return a [`LineItemPage`](https://developers.google.com/ad-manager/docs/reference/v201805/LineItemService.LineItemPage) object directly.  
 * Google auth tokens have expiration dates and they need to be updated or refreshed in some way. Because authentication management is outside the scope of this package, make sure to always pass the new tokens to the services instances using `service.setToken`.

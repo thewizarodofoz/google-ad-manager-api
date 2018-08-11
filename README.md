@@ -8,7 +8,7 @@ A modern wrapper around Google's [Ad Manager API](https://developers.google.com/
 ## Install
 
 ```bash
-npm i --save google-ad-manager-node-api
+npm i --save google-ad-manager-api
 ```
 
 ## Usage

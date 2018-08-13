@@ -39,6 +39,7 @@ await client.authorize();
 ### Step #2:
 Create a DFP client:
 ```ts
+import {DFP} from 'google-ad-manager-api';
 const dfp = new DFP({networkCode: '...', apiVersion: 'v201805'});
 ```
 

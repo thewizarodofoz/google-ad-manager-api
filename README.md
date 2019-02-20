@@ -1,3 +1,5 @@
+![Langauge](https://badge.langauge.io/thewizarodofoz/google-ad-manager-api)
+
 # Google Ad Manager Node.js API
 A modern wrapper around Google's [Ad Manager API](https://developers.google.com/ad-manager/docs/start).
 

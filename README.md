@@ -51,6 +51,10 @@ Use the client to create a service, and pass the auth token from step #1:
 const lineItemService = await dfp.getService('LineItemService');
 lineItemService.setToken(client.credentials.access_token);
 ```
+Or even shorter (pass the token directly to `getService`:
+```ts
+const lineItemService = await dfp.getService('LineItemService', client.credentials.access_token);
+```
 
 ### Step #4
 Invoke service methods:

@@ -18,7 +18,7 @@ export class DFP {
         this.options = options;
     }
 
-    public async getService(service: string): Promise<DFPClient> {
+    public async getService(service: string, token?: string): Promise<DFPClient> {
         const {apiVersion} = this.options;
         const serviceUrl = `https://ads.google.com/apis/ads/publisher/${apiVersion}/${service}?wsdl`;
         const client = await promiseFromCallback((cb) => createClient(serviceUrl, cb));
@@ -28,6 +28,10 @@ export class DFP {
         client.setToken = function setToken(token: string) {
             client.setSecurity(new BearerSecurity(token));
         };
+
+        if (token) {
+            client.setToken(token);
+        }
 
         return new Proxy(client, {
             get: function get(target, propertyKey) {

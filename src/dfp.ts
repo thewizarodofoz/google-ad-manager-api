@@ -1,4 +1,5 @@
-import { BearerSecurity, Client, createClientAsync } from 'soap';
+import { BearerSecurity, Client, createClient } from 'soap';
+import { promiseFromCallback } from "./utils";
 
 export type DFPOptions = {
     networkCode: string;
@@ -20,7 +21,7 @@ export class DFP {
     public async getService(service: string): Promise<DFPClient> {
         const {apiVersion} = this.options;
         const serviceUrl = `https://ads.google.com/apis/ads/publisher/${apiVersion}/${service}?wsdl`;
-        const client = await createClientAsync(serviceUrl);
+        const client = await promiseFromCallback((cb) => createClient(serviceUrl, cb));
 
         client.addSoapHeader(this.getSoapHeaders());
 
@@ -33,8 +34,7 @@ export class DFP {
                 const method = propertyKey.toString();
                 if (target.hasOwnProperty(method) && !['setToken'].includes(method)) {
                     return async function run(dto: any) {
-                        // @ts-ignore
-                        const res = await client[method + 'Async'](dto);
+                        const res = await promiseFromCallback((cb) => client[method](dto, cb));
                         return DFP.parse(res);
                     };
                 } else {
@@ -44,8 +44,8 @@ export class DFP {
         }) as DFPClient;
     }
 
-    public static parse(res: any[]) {
-        return res[0].rval;
+    public static parse(res: any) {
+        return res.rval;
     }
 
     private getSoapHeaders() {

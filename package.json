@@ -12,7 +12,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "soap": "0.36.0"
+    "soap": "0.40.0"
   },
   "files": [
     "README.md",
